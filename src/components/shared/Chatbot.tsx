@@ -66,10 +66,10 @@ export function Chatbot() {
   };
 
   const quickPrompts = user?.role === 'doctor' 
-    ? ['Show today agenda', 'Check patient queue', 'Hospital trauma hotline']
+    ? ['Show today agenda', 'Check patient queue', 'Hospital trauma hotline', 'OPD consultation hours']
     : user?.role === 'admin'
-      ? ['Daily revenue stats', 'Bed occupancy status', 'Staff leave summary']
-      : ['How to book appointment?', 'Download lab reports', 'Emergency contact number'];
+      ? ['Daily revenue stats', 'Bed occupancy status', 'Staff leave summary', 'Emergency casualty status']
+      : ['Hi, what can you do?', 'How to book appointment?', 'Visiting hours & location', 'Doctors & specialists', 'Do you accept insurance?'];
 
   return (
     <>
@@ -128,7 +128,7 @@ export function Chatbot() {
               }`}>
                 {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
               </div>
-              <div className={`max-w-[80%] p-3 rounded-2xl leading-relaxed shadow-sm ${
+              <div className={`max-w-[85%] p-3 rounded-2xl leading-relaxed shadow-sm whitespace-pre-line ${
                 msg.role === 'user' 
                   ? 'bg-blue-600 text-white rounded-tr-xs font-medium' 
                   : 'bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 rounded-tl-xs border border-slate-200/60 dark:border-slate-800'
