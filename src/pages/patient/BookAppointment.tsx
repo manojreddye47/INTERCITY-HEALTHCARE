@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   ChevronRight, ChevronLeft, Calendar as CalendarIcon, Clock, 
   User, CheckCircle, CheckCircle2, Search, Stethoscope, Video, 
-  Activity, Heart, CreditCard, QrCode, Building, Sparkles
+  Activity, Heart, CreditCard, QrCode, Building, Sparkles, Bot
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/authStore';
 import { createAppointment, isDoctorAvailableOnDate, isSlotBooked } from '@/services/realtimeDb';
+import AIAppointmentBooker from '@/pages/patient/AIAppointmentBooker';
 
 const steps = [
   'Department',
@@ -99,21 +100,67 @@ export default function BookAppointment() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200/80 dark:border-slate-800/80">
         <div>
           <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
             Book Clinical Consultation
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            5-step guided reservation for outpatient consultations and telehealth.
+            Use our conversational smart assistant or complete the guided 5-step form below. Both are available on this single page.
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href="#manual-booking"
+            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors"
+          >
+            Go to 5-Step Form ↓
+          </a>
         </div>
       </div>
 
-      {/* Modern Step Indicator */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-x-auto">
+      {/* 1. Smart Conversational Assistant */}
+      <section id="smart-booking" className="space-y-3 scroll-mt-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse" />
+            <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-teal-500" />
+              Smart Conversational Assistant
+            </h2>
+          </div>
+          <a
+            href="#manual-booking"
+            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+          >
+            Jump to 5-Step Form ↓
+          </a>
+        </div>
+        <AIAppointmentBooker hideHeader={true} />
+      </section>
+
+      {/* 2. Step-by-Step Manual Form */}
+      <section id="manual-booking" className="space-y-4 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 scroll-mt-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+            <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <CalendarIcon className="w-4 h-4 text-blue-500" />
+              Guided 5-Step Booking Form
+            </h2>
+          </div>
+          <a
+            href="#smart-booking"
+            className="text-xs text-teal-600 dark:text-teal-400 hover:underline font-semibold"
+          >
+            Jump to Smart Assistant ↑
+          </a>
+        </div>
+
+          {/* Modern Step Indicator */}
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-x-auto">
         <div className="flex items-center justify-between min-w-[500px]">
           {steps.map((step, index) => (
             <React.Fragment key={step}>
@@ -528,6 +575,7 @@ export default function BookAppointment() {
           {currentStep < steps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
         </Button>
       </div>
+      </section>
     </div>
   );
 }

@@ -3,24 +3,25 @@ import { CreditCard, Download, CheckCircle, Clock, AlertCircle } from 'lucide-re
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { formatCurrency } from '@/lib/utils';
 
 export default function PaymentsPage() {
   const [activeTab, setActiveTab] = useState('all');
 
-  // Mock data
+  // Mock data in INR
   const payments = [
-    { id: 'INV-2023-001', date: '2023-10-15', description: 'Cardiology Consultation', amount: 150, status: 'paid' },
-    { id: 'INV-2023-002', date: '2023-10-20', description: 'Blood Test Panel', amount: 85, status: 'paid' },
-    { id: 'INV-2023-003', date: '2023-10-25', description: 'MRI Scan', amount: 450, status: 'pending' },
-    { id: 'INV-2023-004', date: '2023-09-10', description: 'General Checkup', amount: 100, status: 'refunded' },
+    { id: 'INV-2024-001', date: '2024-10-15', description: 'Cardiology Consultation', amount: 1500, status: 'paid' },
+    { id: 'INV-2024-002', date: '2024-10-20', description: 'Blood Test Panel & Lipid Profile', amount: 850, status: 'paid' },
+    { id: 'INV-2024-003', date: '2024-10-25', description: 'MRI Brain & Spine Scan', amount: 4500, status: 'pending' },
+    { id: 'INV-2024-004', date: '2024-09-10', description: 'General Medicine Health Checkup', amount: 1000, status: 'refunded' },
   ];
 
   const chartData = [
-    { month: 'Jun', amount: 100 },
+    { month: 'Jun', amount: 1000 },
     { month: 'Jul', amount: 0 },
-    { month: 'Aug', amount: 150 },
-    { month: 'Sep', amount: 100 },
-    { month: 'Oct', amount: 235 },
+    { month: 'Aug', amount: 1500 },
+    { month: 'Sep', amount: 1000 },
+    { month: 'Oct', amount: 2350 },
   ];
 
   const [paymentList, setPaymentList] = useState(payments);
@@ -31,7 +32,7 @@ export default function PaymentsPage() {
 
   const handleDownloadInvoice = (payment: any) => {
     toast.success(`Downloading Tax Invoice ${payment.id}.pdf...`);
-    const invoiceTxt = `INTERCITY HEALTHCARE HOSPITALS & RESEARCH INSTITUTE\nOFFICIAL TAX INVOICE: ${payment.id}\nDate: ${payment.date}\nService: ${payment.description}\nAmount: $${payment.amount.toFixed(2)}\nStatus: ${payment.status.toUpperCase()}\nPayment Ref: TXN-${Date.now().toString().slice(-6)}\nGSTIN: 27AAAAA0000A1Z5\nNABH Certified Hospital`;
+    const invoiceTxt = `INTERCITY HEALTHCARE MULTI-SPECIALTY HOSPITALS\nHITEC City Medical Enclave, Madhapur, Hyderabad - 500081\nOFFICIAL TAX INVOICE: ${payment.id}\nDate: ${payment.date}\nService: ${payment.description}\nAmount: ${formatCurrency(payment.amount)}\nStatus: ${payment.status.toUpperCase()}\nPayment Ref: TXN-${Date.now().toString().slice(-6)}\nGSTIN: 36AAAAA0000A1Z5\nNABH Certified Hospital`;
     const blob = new Blob([invoiceTxt], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -48,7 +49,7 @@ export default function PaymentsPage() {
     setPaymentList(prev => prev.map(p => 
       p.id === activePayingItem.id ? { ...p, status: 'paid' } : p
     ));
-    toast.success(`Payment of $${activePayingItem.amount} for ${activePayingItem.id} confirmed!`);
+    toast.success(`Payment of ${formatCurrency(activePayingItem.amount)} for ${activePayingItem.id} confirmed!`);
     setActivePayingItem(null);
   };
 
@@ -76,7 +77,7 @@ export default function PaymentsPage() {
         <div className="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Total Paid (YTD)</p>
-            <p className="text-2xl font-bold text-slate-900 dark:text-white">$485.00</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">₹2,350</p>
           </div>
           <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-lg">
             <CheckCircle className="w-6 h-6" />
@@ -85,7 +86,7 @@ export default function PaymentsPage() {
         <div className="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Pending Amount</p>
-            <p className="text-2xl font-bold text-amber-600 dark:text-amber-500">$450.00</p>
+            <p className="text-2xl font-bold text-amber-600 dark:text-amber-500">₹4,500</p>
           </div>
           <div className="p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-lg">
             <Clock className="w-6 h-6" />
@@ -94,7 +95,7 @@ export default function PaymentsPage() {
         <div className="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Recent Refunds</p>
-            <p className="text-2xl font-bold text-slate-900 dark:text-white">$100.00</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">₹1,000</p>
           </div>
           <div className="p-3 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">
             <CreditCard className="w-6 h-6" />
@@ -139,7 +140,7 @@ export default function PaymentsPage() {
                       <div className="text-xs text-slate-500">{format(new Date(payment.date), 'MMM d, yyyy')}</div>
                     </td>
                     <td className="px-6 py-4 text-slate-700 dark:text-slate-300">{payment.description}</td>
-                    <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">${payment.amount.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{formatCurrency(payment.amount)}</td>
                     <td className="px-6 py-4">{getStatusBadge(payment.status)}</td>
                     <td className="px-6 py-4 text-right">
                       {payment.status === 'pending' ? (
@@ -173,12 +174,18 @@ export default function PaymentsPage() {
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">Payment History</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+              <BarChart data={chartData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" opacity={0.2} />
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: '#64748b', fontSize: 12}} 
+                  tickFormatter={(val) => `₹${val}`}
+                />
                 <Tooltip 
                   cursor={{fill: '#334155', opacity: 0.1}}
+                  formatter={(value: any) => [`₹${value}`, 'Amount']}
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
                 <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
@@ -213,7 +220,7 @@ export default function PaymentsPage() {
                 </div>
                 <div className="text-right">
                   <span className="text-slate-500 block text-[11px]">Total Due</span>
-                  <span className="text-xl font-black text-blue-600 dark:text-blue-400">${activePayingItem.amount.toFixed(2)}</span>
+                  <span className="text-xl font-black text-blue-600 dark:text-blue-400">{formatCurrency(activePayingItem.amount)}</span>
                 </div>
               </div>
 
@@ -229,7 +236,7 @@ export default function PaymentsPage() {
                         : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                     }`}
                   >
-                    📱 UPI Instant (GPay / PhonePe)
+                    📱 UPI Instant (GPay / PhonePe / Paytm)
                   </button>
                   <button
                     type="button"
@@ -240,7 +247,7 @@ export default function PaymentsPage() {
                         : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                     }`}
                   >
-                    💳 Card / NetBanking
+                    💳 Debit/Credit Card & NetBanking
                   </button>
                 </div>
               </div>
@@ -263,7 +270,7 @@ export default function PaymentsPage() {
                 onClick={handleConfirmSettlement}
                 className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
               >
-                Pay ${activePayingItem.amount.toFixed(2)} Now
+                Pay {formatCurrency(activePayingItem.amount)} Now
               </button>
             </div>
           </div>

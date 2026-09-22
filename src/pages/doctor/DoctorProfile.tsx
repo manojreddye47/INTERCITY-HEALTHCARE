@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { demoDoctors } from '@/data/demo';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Avatar } from '@/components/ui/Avatar';
-import { Camera, Plus, Trash2, Save } from 'lucide-react';
+import { Camera, Plus, Trash2, Save, Upload } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/store/authStore';
 
 export default function DoctorProfile() {
+  const { user, updateUserPhoto } = useAuthStore();
   const doctor = demoDoctors.find((d) => d.id === 'doc-01') || demoDoctors[0];
   const [activeTab, setActiveTab] = useState('Personal Info');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      updateUserPhoto(dataUrl);
+      toast.success('Doctor profile picture updated successfully!');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const currentPhoto = user?.photoURL || doctor.photoURL;
+
   const [formData, setFormData] = useState({
-    name: doctor.name,
-    email: doctor.email,
+    name: user?.displayName || doctor.name,
+    email: user?.email || doctor.email,
     phone: '+91 9876543210',
     specialty: doctor.specialty,
     departmentId: doctor.departmentId,
@@ -54,14 +75,33 @@ export default function DoctorProfile() {
         <div className="md:w-64 space-y-4">
           <Card>
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <div className="relative mb-4 group cursor-pointer">
-                <Avatar src={doctor.photoURL} alt={doctor.name} size="xl" className="w-32 h-32" />
-                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Camera className="w-8 h-8 text-white" />
+              <div 
+                className="relative mb-3 group cursor-pointer"
+                onClick={() => fileInputRef.current?.click()}
+                title="Click to upload profile photo"
+              >
+                <Avatar src={currentPhoto} alt={formData.name} size="xl" className="w-32 h-32 object-cover ring-2 ring-teal-500/30" />
+                <div className="absolute inset-0 bg-black/50 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Camera className="w-6 h-6 text-white mb-1" />
+                  <span className="text-[10px] text-white font-bold">Change</span>
                 </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  className="hidden"
+                />
               </div>
-              <h3 className="font-bold text-lg">{doctor.name}</h3>
-              <p className="text-sm text-gray-500">{doctor.specialty}</p>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="text-xs text-teal-600 dark:text-teal-400 hover:underline font-semibold mb-2"
+              >
+                Upload Photo
+              </button>
+              <h3 className="font-bold text-lg text-slate-900 dark:text-white">{formData.name}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{formData.specialty}</p>
             </CardContent>
           </Card>
 

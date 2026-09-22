@@ -10,7 +10,7 @@ export default function PrescriptionsPage() {
 
   const handleDownloadRx = (prescription: any) => {
     toast.success('Downloading Official Rx Document (PDF)...');
-    const dummyRx = `INTERCITY HEALTHCARE SYSTEM\nMEDICAL PRESCRIPTION\nDate: ${prescription.date}\nDoctor: Dr. Sarah Johnson (Cardiology)\nMedications: ${prescription.medications.map((m: any) => m.name + ' ' + m.dosage + ' (' + m.frequency + ')').join('\n')}\nNotes: ${prescription.notes || 'None'}\nCertified: Digitally Signed by Physician`;
+    const dummyRx = `INTERCITY HEALTHCARE MULTI-SPECIALTY HOSPITAL\nHITEC City Medical Enclave, Hyderabad - 500081\nMEDICAL PRESCRIPTION\nDate: ${prescription.date}\nDoctor: Dr. Arjun Sharma (Senior Consultant - Cardiology)\nMedications: ${prescription.medications.map((m: any) => m.name + ' ' + m.dosage + ' (' + m.frequency + ')').join('\n')}\nNotes: ${prescription.notes || 'Take medications after meals. Follow up in 14 days.'}\nCertified: Digitally Signed by Clinical Consultant`;
     const blob = new Blob([dummyRx], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -38,7 +38,7 @@ export default function PrescriptionsPage() {
                   Prescribed on {format(new Date(prescription.date), 'MMMM d, yyyy')}
                 </p>
                 <div className="flex items-center space-x-2">
-                  <span className="font-semibold text-slate-900 dark:text-white">By Dr. Sarah Johnson</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">By Dr. Arjun Sharma</span>
                   <span className="text-slate-300 dark:text-slate-600">•</span>
                   <button 
                     onClick={() => navigate('/patient/appointments')}

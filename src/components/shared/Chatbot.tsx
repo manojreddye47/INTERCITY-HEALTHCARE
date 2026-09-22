@@ -21,7 +21,7 @@ export function Chatbot() {
   // Initialize welcome message based on role
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      let welcomeMsg = 'Hello! I am Intercity Healthcare AI Assistant. How can I help you today?';
+      let welcomeMsg = 'Hello! I am Intercity Healthcare Assistant. How can I help you today?';
       if (user?.role === 'patient') welcomeMsg = `Hi ${user.displayName?.split(' ')[0] || ''}! I can help you schedule doctor visits, check diagnostic reports, or answer hospital service questions.`;
       if (user?.role === 'doctor') welcomeMsg = `Greetings Dr. ${(user.displayName || 'Doctor').split(' ')[0]}! I can assist with clinical schedule lookup, patient queue telemetry, and department protocols.`;
       if (user?.role === 'admin') welcomeMsg = 'Greetings Administrator! I can provide real-time hospital occupancy telemetry, staff duty roster updates, and daily revenue stats.';
@@ -51,10 +51,12 @@ export function Chatbot() {
     } catch {
       let fallback = "You can explore hospital services or book directly through the Appointments tab in your sidebar.";
       const lowerMsg = userMessage.toLowerCase();
-      if (lowerMsg.includes('appointment') || lowerMsg.includes('book')) {
-        fallback = "To reserve a consultation, visit the 'Book Appointment' or 'AI Appointment Booker' sections in your dashboard.";
+      if (lowerMsg.includes('diagnos')) {
+        fallback = "Intercity Healthcare assistants do not provide medical diagnoses or advice. Only licensed physicians can diagnose medical conditions. I can help you schedule an appointment with one of our hospital specialists. Would you like to schedule a consultation?";
+      } else if (lowerMsg.includes('appointment') || lowerMsg.includes('book')) {
+        fallback = "To reserve a consultation, visit the 'Book Appointment' section in your sidebar.";
       } else if (lowerMsg.includes('emergency') || lowerMsg.includes('urgent')) {
-        fallback = "For emergency trauma care, please call +91 (22) 2890-4000 or visit our 24/7 Casualty wing immediately.";
+        fallback = "For emergency trauma care, please call +91 40 2890 4000 or visit our 24/7 Casualty wing immediately.";
       }
       
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'assistant', content: fallback }]);
@@ -77,10 +79,10 @@ export function Chatbot() {
         className={`fixed bottom-20 lg:bottom-6 right-4 lg:right-6 p-3.5 rounded-2xl shadow-xl transition-all duration-200 hover:scale-105 z-40 bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-600 text-white flex items-center gap-2 border border-white/20 active:scale-95 ${
           isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'
         }`}
-        aria-label="Open AI Assistant"
+        aria-label="Open Hospital Assistant"
       >
         <Sparkles className="w-5 h-5 text-teal-300 animate-pulse" />
-        <span className="text-xs font-bold hidden sm:inline tracking-tight">AI Assistant</span>
+        <span className="text-xs font-bold hidden sm:inline tracking-tight">Hospital Assistant</span>
       </button>
 
       {/* Chat Drawer / Modal Panel */}
@@ -97,10 +99,10 @@ export function Chatbot() {
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-sm">Intercity Clinical AI</h3>
+                <h3 className="font-bold text-sm">Intercity Clinical Assistant</h3>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-live-pulse" />
               </div>
-              <p className="text-[10px] text-blue-100 capitalize">{user?.role || 'Guest'} Assistant • Gemini 2.0</p>
+              <p className="text-[10px] text-blue-100 capitalize">{user?.role || 'Guest'} Assistant • Hyderabad</p>
             </div>
           </div>
           <button 
@@ -191,7 +193,7 @@ export function Chatbot() {
             </Button>
           </form>
           <p className="text-[10px] text-center text-slate-400 mt-1.5">
-            AI medical assistant. Verify critical health decisions with a physician.
+            Hospital assistant. Verify critical health decisions with a physician.
           </p>
         </div>
       </div>

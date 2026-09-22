@@ -27,6 +27,8 @@ interface AuthState {
   resetPassword: (email: string) => Promise<void>;
   setError: (error: string | null) => void;
   setDemoUser: (role: UserRole) => void;
+  updateUserPhoto: (photoURL: string) => void;
+  updateUserProfile: (updates: Partial<User>) => void;
 }
 
 const DEMO_USERS: Record<UserRole, User> = {
@@ -167,6 +169,22 @@ export const useAuthStore = create<AuthState>()(
 
       setDemoUser: (role: UserRole) => {
         set({ user: DEMO_USERS[role], isInitialized: true });
+      },
+
+      updateUserPhoto: (photoURL: string) => {
+        set((state) => {
+          if (!state.user) return state;
+          const updatedUser = { ...state.user, photoURL };
+          return { user: updatedUser };
+        });
+      },
+
+      updateUserProfile: (updates: Partial<User>) => {
+        set((state) => {
+          if (!state.user) return state;
+          const updatedUser = { ...state.user, ...updates };
+          return { user: updatedUser };
+        });
       },
     }),
     {

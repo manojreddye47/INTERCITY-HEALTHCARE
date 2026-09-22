@@ -14,7 +14,7 @@ interface TopBarProps {
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Overview',
   'book-appointment': 'Book Consultation',
-  'ai-booker': 'AI Appointment Booker',
+  'ai-booker': 'Smart Appointment Booker',
   appointments: 'My Appointments',
   'medical-history': 'Medical History & Timeline',
   reports: 'Diagnostic Lab Reports',
@@ -108,16 +108,6 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             </h1>
           </div>
         </div>
-      </div>
-
-      {/* Middle: Emergency / Clinical Status indicator */}
-      <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200/60 dark:border-slate-800/60 text-xs">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-live-pulse" />
-        <span className="font-medium text-slate-600 dark:text-slate-400">
-          ER 24/7 Active
-        </span>
-        <span className="text-slate-300 dark:text-slate-700">•</span>
-        <span className="text-slate-500 dark:text-slate-400">Avg Wait: 8m</span>
       </div>
 
       {/* Right: Quick Action + Theme + Notifications + User */}

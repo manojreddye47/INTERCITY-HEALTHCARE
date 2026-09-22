@@ -34,10 +34,10 @@ export default function LandingPage() {
       <div className="bg-gradient-to-r from-blue-700 via-teal-600 to-emerald-600 text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-3">
         <span className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-          <span className="font-bold">24/7 Trauma & Emergency Helpline:</span> +91 (22) 2890-4000
+          <span className="font-bold">24/7 Trauma & Emergency Helpline:</span> +91 40 2890 4000
         </span>
         <span className="hidden md:inline text-blue-200">|</span>
-        <span className="hidden md:inline text-blue-100">NABH & JCI Accredited Healthcare Center • Mumbai</span>
+        <span className="hidden md:inline text-blue-100">NABH & JCI Accredited Multi-Specialty Hospital • Hyderabad</span>
       </div>
 
       {/* Navbar */}
@@ -49,15 +49,15 @@ export default function LandingPage() {
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">Intercity Healthcare</span>
-              <p className="text-[10px] font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-widest mt-0.5">Clinical Intelligence</p>
+              <p className="text-[10px] font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-widest mt-0.5">Hyderabad • Multi-Specialty</p>
             </div>
           </Link>
           
           <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
             <a href="#departments" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Specialties</a>
             <a href="#doctors" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Physicians</a>
-            <a href="#ai-platform" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
-              <span>AI Platform</span>
+            <a href="#platform" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
+              <span>Platform</span>
               <span className="px-1.5 py-0.2 rounded-full bg-blue-100 dark:bg-blue-900/40 text-[10px] text-blue-700 dark:text-blue-300 font-bold">2.0</span>
             </a>
             <a href="#experience" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Technology</a>
@@ -104,7 +104,7 @@ export default function LandingPage() {
               <div className="flex flex-col p-5 space-y-4">
                 <a href="#departments" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Specialties</a>
                 <a href="#doctors" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Specialists</a>
-                <a href="#ai-platform" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">AI Platform</a>
+                <a href="#platform" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Platform</a>
                 <a href="#experience" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Hospital Technology</a>
                 <a href="#testimonials" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Reviews</a>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="text-base font-semibold text-slate-900 dark:text-slate-100">Contact & Hours</a>
@@ -142,7 +142,7 @@ export default function LandingPage() {
                 {/* Pill Tag */}
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-800/60 text-blue-700 dark:text-blue-300 text-xs font-semibold mb-6 shadow-sm">
                   <Sparkles className="h-3.5 w-3.5 text-teal-500" />
-                  <span>Next-Gen Healthcare Management & Clinical AI</span>
+                  <span>Next-Gen Hospital Management System</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
                   <span className="text-teal-600 dark:text-teal-400">v2.0 Live</span>
                 </div>
@@ -155,7 +155,7 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-                  Intercity Healthcare delivers hospital CRM, intelligent patient triaging, automated appointment booking with Gemini AI, and real-time clinical workflows for doctors, patients, and administrators.
+                  Intercity Healthcare delivers comprehensive hospital CRM, smart patient triaging, automated appointment booking, and real-time clinical workflows for doctors, patients, and administrators in Hyderabad.
                 </p>
 
                 {/* Primary Action Buttons */}
@@ -167,19 +167,19 @@ export default function LandingPage() {
                     </Button>
                   </Link>
 
-                  <a href="#ai-platform">
+                  <Link to="/auth/login?role=patient">
                     <Button size="lg" variant="outline" className="h-13 px-7 text-sm font-semibold rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">
-                      <Bot className="mr-2 w-4 h-4 text-teal-500" />
-                      Explore AI Booker
+                      <Sparkles className="mr-2 w-4 h-4 text-teal-500" />
+                      Smart Appointment Booker
                     </Button>
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Instant Demo Role Access Chips */}
                 <div className="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur max-w-xl">
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2.5 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    Hackathon Quick-Access (One-Click Demo Portals):
+                    Instant One-Click Demo Access:
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <Link
@@ -323,20 +323,20 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* AI Platform Capabilities Showcase */}
-        <section id="ai-platform" className="py-20 bg-slate-900 text-white relative overflow-hidden">
+        {/* Platform Capabilities Showcase */}
+        <section id="platform" className="py-20 bg-slate-900 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.25),rgba(255,255,255,0))]" />
           
           <div className="container mx-auto px-4 sm:px-6 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-500/30">
-                Cutting-Edge Medical AI
+                Advanced Clinical Platform
               </span>
               <h2 className="text-3xl sm:text-4xl font-black mt-4 mb-4 tracking-tight">
                 Designed for Clinical Precision & Seamless Access
               </h2>
               <p className="text-slate-400 text-sm sm:text-base">
-                SmartCare pairs Google Gemini 2.0 generative intelligence with a robust hospital management architecture.
+                Intercity Healthcare pairs automated clinical triage with a robust hospital management architecture.
               </p>
             </div>
 
@@ -345,9 +345,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center mb-5">
                   <Bot className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold mb-2">Natural Language Appointment Booker</h3>
+                <h3 className="text-lg font-bold mb-2">Smart Natural Language Appointment Booker</h3>
                 <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                  Patients simply state: "I've had chest palpitations and shortness of breath since morning" — the AI extracts cardiology urgency, suggests available doctors, and sets the slot.
+                  Patients simply state: "I've had chest palpitations and shortness of breath since morning" — the assistant extracts cardiology urgency, suggests available doctors, and sets the slot.
                 </p>
                 <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold">
                   <CheckCircle2 className="w-3.5 h-3.5" />
@@ -615,7 +615,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-900 dark:text-white">Hospital Address</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Plot 42, Medical Enclave, Bandra West, Mumbai, Maharashtra 400050</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Plot 42, HITEC City Medical Enclave, Madhapur, Hyderabad, Telangana 500081</p>
                     </div>
                   </div>
 
@@ -625,7 +625,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-900 dark:text-white">Phone & Emergency</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">OPD Appointments: +91 (22) 2890-4001 • Trauma: +91 (22) 2890-4000</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">OPD Appointments: +91 40 2890 4001 • Trauma: +91 40 2890 4000</p>
                     </div>
                   </div>
 
@@ -635,7 +635,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-900 dark:text-white">Email Inquiries</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">care@smartcare-hospital.in • appointments@smartcare.org</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">care@intercityhealthcare.in • appointments@intercityhealthcare.in</p>
                     </div>
                   </div>
                 </div>
@@ -676,7 +676,7 @@ export default function LandingPage() {
             </div>
             <span className="font-bold text-white text-sm">Intercity Healthcare Platform</span>
           </div>
-          <p>© 2026 Intercity Healthcare Systems. Hackathon Production Build.</p>
+          <p>© 2026 Intercity Healthcare Systems. Enterprise Clinical Build.</p>
         </div>
       </footer>
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bell, Calendar, CreditCard, FileText, CheckCircle2, Shield, Info } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuthStore } from '@/store/authStore';
-import { subscribeToNotifications, markNotificationAsRead, RealtimeNotification } from '@/services/realtimeDb';
+import { subscribeToNotifications, markNotificationAsRead, markAllNotificationsAsRead, RealtimeNotification } from '@/services/realtimeDb';
 
 export default function NotificationsPage() {
   const { user } = useAuthStore();
@@ -18,11 +18,7 @@ export default function NotificationsPage() {
   }, [userId]);
 
   const markAllAsRead = async () => {
-    for (const notif of notifications) {
-      if (!notif.read) {
-        await markNotificationAsRead(notif.id);
-      }
-    }
+    await markAllNotificationsAsRead(userId);
   };
 
   const handleItemClick = async (id: string) => {

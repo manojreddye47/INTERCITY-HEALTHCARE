@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useAuthStore } from '@/store/authStore';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
 import { Button } from '@/components/ui/Button';
+import { Medical3DCanvas } from '@/components/shared/Medical3DCanvas';
 import { motion } from 'framer-motion';
 
 const loginSchema = z.object({
@@ -65,65 +66,34 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 font-sans">
-      {/* Left Clinical Brand Showcase Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-blue-950 to-teal-950 relative overflow-hidden flex-col justify-between p-12 text-white border-r border-slate-800">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
+      {/* Left Clinical 3D Brand Showcase Panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-slate-950 relative overflow-hidden flex-col justify-between p-10 text-white border-r border-slate-800 select-none">
+        {/* 3D Canvas Background & Geometry */}
+        <div className="absolute inset-0 z-0">
+          <Medical3DCanvas speedMultiplier={1} themePreset="azure" />
+        </div>
+
+        {/* Ambient overlay shadows */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Brand Header */}
         <div className="relative z-10">
-          <Link to="/" className="inline-flex items-center gap-3 group">
+          <Link to="/" className="inline-flex items-center gap-3 group backdrop-blur-md bg-slate-900/40 p-2 pr-4 rounded-2xl border border-slate-800/80 hover:border-teal-500/40 transition-colors">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-teal-400 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
               <Heart className="h-5 w-5 text-white fill-white" />
             </div>
             <div>
-              <span className="text-2xl font-extrabold tracking-tight">Intercity Healthcare</span>
-              <p className="text-[10px] uppercase font-bold text-teal-400 tracking-widest leading-none mt-0.5">Clinical CRM</p>
+              <span className="text-xl font-extrabold tracking-tight">Intercity Healthcare</span>
+              <p className="text-[10px] uppercase font-bold text-teal-400 tracking-widest leading-none mt-0.5">Hyderabad • Multi-Specialty</p>
             </div>
           </Link>
         </div>
 
-        {/* Main Value Proposition */}
-        <div className="relative z-10 max-w-lg my-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-teal-400" />
-            <span>Healthcare Operating System v2.0</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight">
-            Elevating patient recovery with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-emerald-400">intelligent care.</span>
-          </h1>
-
-          <p className="text-slate-300 text-base leading-relaxed">
-            A unified clinical portal for patients, physicians, and operations staff. Access appointment booking, electronic records, diagnostic reports, and analytics.
-          </p>
-
-          <div className="space-y-3 pt-4">
-            <div className="flex items-center gap-3 text-sm text-slate-200">
-              <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-              </div>
-              <span>Gemini 2.0 AI Conversational Appointment Triage</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-slate-200">
-              <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-              </div>
-              <span>Role-partitioned dashboards with instant demo switching</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-slate-200">
-              <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-              </div>
-              <span>NABH & HIPAA Compliant Security Infrastructure</span>
-            </div>
-          </div>
-        </div>
-
         {/* Footer info */}
-        <div className="relative z-10 flex items-center justify-between text-xs text-slate-400 pt-8 border-t border-slate-800">
-          <span>Intercity Healthcare Multi-Specialty Hospital • Mumbai</span>
-          <span>ER 24/7 Helpline: 102</span>
+        <div className="relative z-10 flex items-center justify-between text-xs text-slate-400 pt-4 border-t border-slate-800/80 backdrop-blur-sm">
+          <span>HITEC City & Jubilee Hills • Hyderabad</span>
+          <span>ER 24/7 Helpline: +91 40 2890 4000</span>
         </div>
       </div>
 
@@ -156,10 +126,10 @@ export function LoginPage() {
           <div className="p-4 rounded-2xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 space-y-2.5">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                ⚡ Hackathon One-Click Demo Access
+                ⚡ One-Click Instant Role Demo
               </span>
               <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">
-                Instant Bypass
+                Instant Access
               </span>
             </div>
 
@@ -302,7 +272,7 @@ export function LoginPage() {
 
         {/* Bottom copyright */}
         <p className="text-center text-xs text-slate-400">
-          Protected by SmartCare Healthcare Security • 256-bit SSL
+          Protected by Intercity Healthcare Security • 256-bit SSL
         </p>
       </div>
     </div>

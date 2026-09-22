@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Shield, User, Mail, Phone, Building2, Key, Bell, CheckCircle2, 
-  Save, Lock, ShieldCheck, FileCheck, Award, Clock
+  Save, Lock, ShieldCheck, FileCheck, Award, Clock, Camera
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/Button';
 
 export default function AdminProfile() {
-  const { user } = useAuthStore();
+  const { user, updateUserPhoto } = useAuthStore();
   const [activeTab, setActiveTab] = useState('executive');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      updateUserPhoto(dataUrl);
+      toast.success('Admin profile picture updated successfully!');
+    };
+    reader.readAsDataURL(file);
+  };
 
   const [adminData, setAdminData] = useState({
     name: user?.displayName || 'Dr. Vikram Malhotra',
@@ -48,14 +65,41 @@ export default function AdminProfile() {
         {/* Left ID Card & Navigation */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm text-center">
-            <div className="relative inline-block mb-4">
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center text-3xl font-black shadow-lg mx-auto">
-                {adminData.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+            <div 
+              className="relative inline-block mb-3 group cursor-pointer"
+              onClick={() => fileInputRef.current?.click()}
+              title="Click to upload profile photo"
+            >
+              {user?.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  alt={adminData.name}
+                  className="w-24 h-24 rounded-2xl object-cover shadow-lg mx-auto ring-2 ring-purple-500/30"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center text-3xl font-black shadow-lg mx-auto">
+                  {adminData.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                </div>
+              )}
+              <div className="absolute -bottom-1 -right-1 p-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full border-2 border-white dark:border-slate-900 shadow-sm transition-colors">
+                <Camera className="w-3.5 h-3.5" />
               </div>
-              <div className="absolute -bottom-1 -right-1 p-1.5 bg-emerald-500 text-white rounded-full border-2 border-white dark:border-slate-900">
-                <ShieldCheck className="w-3.5 h-3.5" />
-              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
             </div>
+            
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="text-xs text-purple-600 dark:text-purple-400 hover:underline font-semibold block mx-auto mb-2"
+            >
+              Upload Picture
+            </button>
             
             <h2 className="font-bold text-slate-900 dark:text-white text-base">
               {adminData.name}

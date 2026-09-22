@@ -9,12 +9,13 @@ import { Modal } from '@/components/ui/Modal';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { 
   Calendar, Clock, CheckCircle2, User, Star, Activity, 
-  Stethoscope, FileText, Check, Play, AlertCircle, ChevronRight, Plus, XCircle
+  Stethoscope, FileText, Check, Play, AlertCircle, ChevronRight, Plus, XCircle, Edit3
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { AppointmentStatus } from '@/types';
 import { cn } from '@/lib/utils';
+import { VitalsEditorModal } from '@/components/doctor/VitalsEditorModal';
 
 interface DoctorPatientQueueItem {
   id: string;
@@ -88,8 +89,39 @@ export default function DoctorDashboard() {
 
   const [queue, setQueue] = useState<DoctorPatientQueueItem[]>(INITIAL_QUEUE);
   const [activeConsultation, setActiveConsultation] = useState<DoctorPatientQueueItem | null>(null);
+  const [editingVitalsItem, setEditingVitalsItem] = useState<DoctorPatientQueueItem | null>(null);
   const [clinicalNotes, setClinicalNotes] = useState('');
   const [rxNotes, setRxNotes] = useState('');
+
+  const handleSaveVitals = (updatedVitals: Record<string, string>) => {
+    if (!editingVitalsItem) return;
+    setQueue(prev => prev.map(item => {
+      if (item.id === editingVitalsItem.id) {
+        return {
+          ...item,
+          vitals: {
+            bp: updatedVitals.bp || item.vitals.bp,
+            pulse: updatedVitals.pulse || item.vitals.pulse,
+            temp: updatedVitals.temp || item.vitals.temp,
+            ...updatedVitals,
+          },
+        };
+      }
+      return item;
+    }));
+
+    if (activeConsultation && activeConsultation.id === editingVitalsItem.id) {
+      setActiveConsultation(prev => prev ? {
+        ...prev,
+        vitals: {
+          bp: updatedVitals.bp || prev.vitals.bp,
+          pulse: updatedVitals.pulse || prev.vitals.pulse,
+          temp: updatedVitals.temp || prev.vitals.temp,
+          ...updatedVitals,
+        },
+      } : null);
+    }
+  };
 
   useEffect(() => {
     const unsub = subscribeToAppointments({ doctorId: doctor.id }, (appointments) => {
@@ -243,17 +275,31 @@ export default function DoctorDashboard() {
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.reason}</p>
                       
                       {/* Vitals snapshot */}
-                      <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium mt-2">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] text-slate-500 font-medium mt-2">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3 text-slate-400" />
                           {item.time}
                         </span>
-                        <span className="px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                        <span className="px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
                           BP: {item.vitals.bp}
                         </span>
-                        <span className="px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                        <span className="px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
                           Pulse: {item.vitals.pulse}
                         </span>
+                        {item.vitals.temp && (
+                          <span className="px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                            Temp: {item.vitals.temp}
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setEditingVitalsItem(item)}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 hover:bg-teal-100 transition-colors font-semibold"
+                          title="Edit patient vitals"
+                        >
+                          <Activity className="w-3 h-3" />
+                          <span>Edit Vitals</span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -389,9 +435,20 @@ export default function DoctorDashboard() {
                 </span>
               </div>
               <div className="text-right">
-                <span className="text-slate-400 block">Vitals Snapshot</span>
+                <div className="flex items-center justify-end gap-1.5 mb-0.5">
+                  <span className="text-slate-400 block">Vitals Snapshot</span>
+                  <button
+                    type="button"
+                    onClick={() => setEditingVitalsItem(activeConsultation)}
+                    className="inline-flex items-center gap-0.5 text-xs text-teal-600 dark:text-teal-400 hover:underline font-semibold"
+                  >
+                    <Edit3 className="w-3 h-3" />
+                    <span>Edit</span>
+                  </button>
+                </div>
                 <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
                   BP: {activeConsultation.vitals.bp} • Pulse: {activeConsultation.vitals.pulse}
+                  {activeConsultation.vitals.temp ? ` • ${activeConsultation.vitals.temp}` : ''}
                 </span>
               </div>
             </div>
@@ -443,6 +500,14 @@ export default function DoctorDashboard() {
           </div>
         )}
       </Modal>
+
+      <VitalsEditorModal
+        isOpen={!!editingVitalsItem}
+        onClose={() => setEditingVitalsItem(null)}
+        patientName={editingVitalsItem?.patientName || ''}
+        initialVitals={editingVitalsItem?.vitals || {}}
+        onSave={handleSaveVitals}
+      />
     </div>
   );
 }

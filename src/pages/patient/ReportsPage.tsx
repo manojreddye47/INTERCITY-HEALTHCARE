@@ -14,7 +14,7 @@ export default function ReportsPage() {
   const [newReportData, setNewReportData] = useState({
     name: '',
     category: 'Blood Test',
-    hospital: 'SmartCare Diagnostics Center'
+    hospital: 'Intercity Healthcare Central Diagnostics, Hyderabad'
   });
 
   const filteredReports = reports.filter(report => {
@@ -31,7 +31,7 @@ export default function ReportsPage() {
 
   const handleDownloadReport = (report: any) => {
     toast.success(`Downloading "${report.name}.pdf" from secure clinical vault...`);
-    const dummyContent = `INTERCITY HEALTHCARE SYSTEM\nOFFICIAL DIAGNOSTIC REPORT\nReport: ${report.name}\nCategory: ${report.category}\nDate: ${report.date}\nFacility: ${report.hospital || 'Intercity Healthcare Diagnostics'}\nCertified: Digitally Signed by Pathologist\n`;
+    const dummyContent = `INTERCITY HEALTHCARE MULTI-SPECIALTY HOSPITAL\nHITEC City Medical Enclave, Hyderabad - 500081\nOFFICIAL DIAGNOSTIC REPORT\nReport: ${report.name}\nCategory: ${report.category}\nDate: ${report.date}\nFacility: ${report.hospital || 'Intercity Central Pathology & Diagnostics, Hyderabad'}\nCertified: Digitally Signed by Chief Pathologist\nAccreditation: NABL & NABH Accredited Laboratory`;
     const blob = new Blob([dummyContent], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

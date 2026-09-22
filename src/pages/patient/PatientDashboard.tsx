@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { 
   Calendar, Clock, FileText, CreditCard, User, 
   Activity, Bell, ChevronRight, Sparkles, Plus, ArrowRight,
-  Heart, Download, ShieldCheck, MapPin, Video, AlertCircle
+  Heart, Download, ShieldCheck, MapPin, Video, AlertCircle, CalendarPlus
 } from 'lucide-react';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
@@ -90,16 +90,10 @@ export default function PatientDashboard() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2.5 shrink-0">
-            <Link to="/patient/ai-booker">
-              <Button className="w-full sm:w-auto h-11 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl text-xs px-4 shadow-lg active:scale-95 transition-all">
-                <Sparkles className="w-4 h-4 mr-1.5 text-teal-600" />
-                AI Smart Booking
-              </Button>
-            </Link>
             <Link to="/patient/book-appointment">
-              <Button className="w-full sm:w-auto h-11 bg-blue-700/60 hover:bg-blue-700 text-white font-semibold rounded-xl text-xs px-4 border border-white/20 active:scale-95 transition-all">
-                <Plus className="w-4 h-4 mr-1" />
-                New Appointment
+              <Button className="w-full sm:w-auto h-11 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl text-xs px-5 shadow-lg active:scale-95 transition-all">
+                <CalendarPlus className="w-4 h-4 mr-1.5 text-blue-600" />
+                Book Appointment
               </Button>
             </Link>
           </div>
@@ -269,7 +263,7 @@ export default function PatientDashboard() {
             </h3>
             <div className="space-y-2">
               <Link
-                to="/patient/ai-booker"
+                to="/patient/book-appointment"
                 className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-blue-50 to-teal-50 dark:from-blue-950/40 dark:to-teal-950/40 border border-blue-200/50 dark:border-blue-900/40 hover:scale-[1.01] transition-all group"
               >
                 <div className="flex items-center gap-3">
@@ -277,7 +271,7 @@ export default function PatientDashboard() {
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 dark:text-white">AI Symptom Booker</p>
+                    <p className="text-xs font-bold text-slate-900 dark:text-white">Smart Symptom Booker</p>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400">Describe symptoms in chat</p>
                   </div>
                 </div>

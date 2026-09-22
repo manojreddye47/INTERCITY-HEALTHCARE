@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, CalendarPlus, Sparkles, Calendar, FileText,
@@ -9,6 +10,7 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { getInitials, cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { subscribeToNotifications } from '@/services/realtimeDb';
 
 interface NavItem {
   name: string;
@@ -27,6 +29,16 @@ export function Sidebar() {
   const { user, signOut } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
+
+  useEffect(() => {
+    if (!user) return;
+    const userId = user.uid || (user.role ? `demo-${user.role}` : 'demo-patient');
+    const unsub = subscribeToNotifications(userId, (list) => {
+      setUnreadNotificationsCount(list.filter(n => !n.read).length);
+    });
+    return () => unsub();
+  }, [user]);
 
   if (!user) return null;
 
@@ -36,7 +48,6 @@ export function Sidebar() {
       items: [
         { name: 'Dashboard', href: '/patient/dashboard', icon: LayoutDashboard },
         { name: 'Book Appointment', href: '/patient/book-appointment', icon: CalendarPlus },
-        { name: 'AI Appointment Booker', href: '/patient/ai-booker', icon: Sparkles, highlight: true, badge: 'AI' },
       ],
     },
     {
@@ -53,7 +64,7 @@ export function Sidebar() {
       items: [
         { name: 'Billing & Payments', href: '/patient/payments', icon: CreditCard },
         { name: 'Feedback & Reviews', href: '/patient/feedback', icon: Star },
-        { name: 'Notifications', href: '/patient/notifications', icon: Bell, badge: 2 },
+        { name: 'Notifications', href: '/patient/notifications', icon: Bell, badge: unreadNotificationsCount > 0 ? unreadNotificationsCount : undefined },
         { name: 'Profile & Settings', href: '/patient/profile', icon: User },
       ],
     },

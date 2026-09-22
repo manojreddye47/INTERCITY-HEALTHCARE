@@ -82,7 +82,7 @@ npm run build
 
 ---
 
-## 👥 Hackathon One-Click Demo Portals
+## 👥 Instant One-Click Demo Portals
 
 The application includes built-in 1-click role logins for instant demonstration:
 - **Patient Portal**: `/auth/login?role=patient`

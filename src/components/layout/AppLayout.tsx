@@ -37,8 +37,8 @@ export default function AppLayout() {
     // Default: Patient
     return [
       { name: 'Home', href: '/patient/dashboard', icon: LayoutDashboard },
-      { name: 'Book', href: '/patient/book-appointment', icon: CalendarPlus },
-      { name: 'AI Booker', href: '/patient/ai-booker', icon: Sparkles, highlight: true },
+      { name: 'Book', href: '/patient/book-appointment', icon: CalendarPlus, highlight: true },
+      { name: 'Appointments', href: '/patient/appointments', icon: Calendar },
       { name: 'Records', href: '/patient/reports', icon: FileText },
     ];
   };

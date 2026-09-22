@@ -35,13 +35,17 @@ export const useThemeStore = create<ThemeState>((set) => ({
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('smartcare-theme', dark ? 'dark' : 'light');
     set({ isDark: dark });
   },
 }));
 
-// Initialize theme from localStorage
-const savedTheme = localStorage.getItem('smartcare-theme');
+// Initialize theme from localStorage, default to light mode
+const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('smartcare-theme') : null;
 if (savedTheme === 'dark') {
   document.documentElement.classList.add('dark');
   useThemeStore.getState().setDark(true);
+} else {
+  document.documentElement.classList.remove('dark');
+  useThemeStore.getState().setDark(false);
 }

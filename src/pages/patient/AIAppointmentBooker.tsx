@@ -51,7 +51,11 @@ const PROMPT_SUGGESTIONS = [
   "Need to consult a dermatologist for a skin rash this Friday.",
 ];
 
-export default function AIAppointmentBooker() {
+export interface AIAppointmentBookerProps {
+  hideHeader?: boolean;
+}
+
+export default function AIAppointmentBooker({ hideHeader = false }: AIAppointmentBookerProps = {}) {
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
@@ -59,7 +63,7 @@ export default function AIAppointmentBooker() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Hello! I am Intercity Healthcare's AI Clinical Scheduling Assistant. Tell me what you need in plain English — for example:\n\n• *\"I need a cardiologist tomorrow afternoon.\"*\n• *\"I need a full body health check this Saturday.\"*\n• *\"I want to see someone about knee pain next week.\"*\n\nI will check our specialist availability and present verified booking options immediately.",
+      content: "Hello! I am Intercity Healthcare's Smart Appointment Assistant. Tell me what you need in plain English — for example:\n\n• *\"I need a cardiologist tomorrow afternoon.\"*\n• *\"I need a full body health check this Saturday.\"*\n• *\"I want to see someone about knee pain next week.\"*\n\nI will check our specialist availability and present verified booking options immediately.",
       timestamp: new Date(),
     }
   ]);
@@ -286,7 +290,10 @@ export default function AIAppointmentBooker() {
         setSelectedSlotOption(firstAvailable);
       }
 
-      const fallbackText = `I have mapped your request to our **${targetDeptInfo.deptName}** department. Based on your schedule for **${dateInfo.label}**, here are the verified open consultation slots with our specialists:`;
+      let fallbackText = `I have mapped your request to our **${targetDeptInfo.deptName}** department. Based on your schedule for **${dateInfo.label}**, here are the verified open consultation slots with our specialists:`;
+      if (textToSend.toLowerCase().includes('diagnos') && !textToSend.toLowerCase().includes('report')) {
+        fallbackText = `⚠️ **Medical Safety Notice**: Intercity Healthcare assistants do not provide medical diagnoses or treatment advice. Only a qualified physician can diagnose conditions.\n\nTo have your symptoms evaluated by a doctor, here are the verified open consultation slots with our **${targetDeptInfo.deptName}** specialists:`;
+      }
 
       setExtractedData({
         department: targetDeptInfo.deptName,
@@ -339,7 +346,7 @@ export default function AIAppointmentBooker() {
         date: selectedSlotOption.dateStr,
         time: selectedSlotOption.time,
         status: 'Scheduled',
-        reason: extractedData?.symptoms || 'AI Consultation Request',
+        reason: extractedData?.symptoms || 'Smart Consultation Request',
         consultationFee: selectedSlotOption.consultationFee,
         paymentStatus: 'paid',
       });
@@ -364,46 +371,48 @@ export default function AIAppointmentBooker() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Banner & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200/80 dark:border-slate-800/80">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-500 text-white shadow-md shadow-blue-500/20">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                  AI Appointment Booker
-                </h1>
-                <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-teal-500 text-white text-[10px] font-extrabold uppercase tracking-wide shadow-sm">
-                  Gemini 2.0 Live
-                </span>
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200/80 dark:border-slate-800/80">
+          <div>
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-500 text-white shadow-md shadow-blue-500/20">
+                <Sparkles className="w-5 h-5" />
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                Natural-language clinical scheduling with realtime doctor availability.
-              </p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                    Smart Appointment Booker
+                  </h1>
+                  <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-teal-500 text-white text-[10px] font-extrabold uppercase tracking-wide shadow-sm">
+                    Instant Triage
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                  Natural-language clinical scheduling with realtime doctor availability.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setMessages([messages[0]]);
-              setChatHistory([]);
-              setExtractedData(null);
-              setSelectedSlotOption(null);
-              setBookingSuccessData(null);
-            }}
-            className="text-xs rounded-xl"
-          >
-            <RefreshCw className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
-            New Session
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setMessages([messages[0]]);
+                setChatHistory([]);
+                setExtractedData(null);
+                setSelectedSlotOption(null);
+                setBookingSuccessData(null);
+              }}
+              className="text-xs rounded-xl"
+            >
+              <RefreshCw className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
+              New Session
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Safety Notice Callout */}
       <div className="p-3.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/40 flex items-start gap-3">

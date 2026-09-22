@@ -540,6 +540,22 @@ export async function markNotificationAsRead(notificationId: string): Promise<vo
   }
 }
 
+export async function markAllNotificationsAsRead(userId: string): Promise<void> {
+  notificationsCache = notificationsCache.map(n => 
+    (n.userId === userId || n.userId === 'all') ? { ...n, read: true } : n
+  );
+  notifyNotificationListeners();
+  broadcastEvent('NOTIFICATION_UPDATED', { userId, readAll: true });
+
+  for (const n of notificationsCache.filter(n => (n.userId === userId || n.userId === 'all'))) {
+    try {
+      await withTimeout(updateDoc(doc(db, 'notifications', n.id), { read: true }), 500);
+    } catch {
+      // offline
+    }
+  }
+}
+
 // -----------------------------------------------------------------------------
 // 4. COMPLIANCE AUDIT LOGGING
 // -----------------------------------------------------------------------------

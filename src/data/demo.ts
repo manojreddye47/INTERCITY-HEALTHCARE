@@ -538,7 +538,7 @@ export const appointmentTrendData = [
 export const demoTestimonials = [
   {
     id: 't1', name: 'Priya Chandrasekaran', rating: 5, date: fmt(subDays(today, 5)),
-    review: "Intercity Healthcare's AI appointment booking is phenomenal! I described my symptoms and it immediately found the right specialist with slots that worked for me. The entire process took less than 2 minutes.",
+    review: "Intercity Healthcare's smart appointment booking is phenomenal! I described my symptoms and it immediately found the right specialist with slots that worked for me. The entire process took less than 2 minutes.",
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaC&backgroundColor=d1d4f9',
     department: 'Cardiology',
   },
@@ -562,14 +562,14 @@ export const demoTestimonials = [
   },
   {
     id: 't5', name: 'Lakshmi Venkatesh', rating: 5, date: fmt(subDays(today, 30)),
-    review: "I was skeptical about AI appointment booking, but it understood exactly what I needed! It suggested a neurologist, found an available slot, and even reminded me the day before. Incredible!",
+    review: "I was delighted with the smart appointment booking system! It understood exactly what I needed, suggested an expert neurologist in Hyderabad, found an available slot, and confirmed instantly.",
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=LakshmiV&backgroundColor=ffdfbf',
     department: 'Neurology',
   },
 ];
 
 export const hospitalFAQs = [
-  { q: 'How do I book an appointment?', a: 'You can book an appointment through our online portal, the Intercity Healthcare app, or by calling our reception. Our AI Appointment Booker makes it as simple as describing what you need in plain language.' },
+  { q: 'How do I book an appointment?', a: 'You can book an appointment through our online portal, the Intercity Healthcare app, or by calling our reception. Our Smart Appointment Booker makes it as simple as describing what you need in plain language.' },
   { q: 'Can I cancel or reschedule an appointment?', a: 'Yes, you can cancel or reschedule your appointment up to 4 hours before the scheduled time without any charges. Late cancellations may incur a nominal fee.' },
   { q: 'What types of appointments are available?', a: 'We offer In-person consultations, Video Consultations, Follow-up visits, and Emergency/Callback requests for all departments.' },
   { q: 'How do I access my medical reports?', a: 'Your medical reports are available in your Intercity Healthcare patient portal under the "Reports" section. You can download, view, and share them with other healthcare providers.' },
